@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { backendUrl } from "../config";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
+import './Home.css'
 
 export const Home = () => {
   const [data, setData] = useState({
     longUrl: "",
   });
-  const [link, setLink] = useState('YR6GeiS-0Sv9hES');
+  const [link, setLink] = useState('Your link will appear here');
   const [allData, setAllData] = useState([]);
   const handleChange = (ele) => {
     const { name, value } = ele.target;
@@ -32,8 +33,8 @@ export const Home = () => {
           if (newUrl.status === 500 || newUrl.status === 401) {
             alert("Url is not valid");
           } else {
-            alert("added successfully");
-            setLink(response.shortUrl)
+            alert("URL shorted successfully");
+            setLink(`${backendUrl}/${response.shortUrl}`)
           }
           setData({
             longUrl: "",
@@ -41,21 +42,23 @@ export const Home = () => {
     }catch(err){
         console.log(err)
     }
+    
   };
   const getData = async()=>{
     const response = await fetch(`${backendUrl}/urlShortener`)
     const allLinks = await response.json()
     setAllData(allLinks)
   }
-  // const getSingleData = async(link)=>{
-    // const response = await fetch(`${backendUrl}:${link}`)
-    // const reDirect = await response.json()
-    // console.log(reDirect)
-  // }
+  const getSingleData = async()=>{
+    const response = await fetch(`${backendUrl}:${link}`)
+    const reDirect = await response.json()
+    console.log(reDirect)
+  }
 useEffect(()=>{
     getData();
-    // getSingleData(link);
+    getSingleData();
 },[data])
+
   return (
     <div>
       <h3>URL shortener Application</h3>
@@ -63,7 +66,8 @@ useEffect(()=>{
         display : 'flex',
         alignItems : 'center',
         justifyContent : 'space-evenly',
-        width : '80vw'
+        width : '90vw',
+        flexWrap : 'wrap'
       }}>
       <div>
         <div
@@ -96,23 +100,24 @@ useEffect(()=>{
         </div>
         <div>
           <p>Your Shortener link is : </p>
-          <h4>
-            <Link to={link}>{link}</Link>
+          <h4 style={{
+            width : '300px',
+            textAlign : 'center'
+          }}>
+            <Link to={link} target='_blank' >{link}</Link>
           </h4>
         </div>
       </div>
       <div>
-        <table style={{
-            width : '500px'
-        }}>
-          <thead>
+        <table>
+          <thead >
             <th>Links</th>
             <th>Total visited count</th>
           </thead>
           <tbody>
             {allData.map((d, i) => (
               <tr key={i}>
-                <td>{d.shortUrl}</td>
+                <td> <Link to={`${backendUrl}/${d.shortUrl}`} target='_blank' >{`${backendUrl}/${d.shortUrl}`}</Link> </td>
                 <td>{d.visited.length}</td>
               </tr>
             ))}

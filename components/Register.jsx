@@ -3,6 +3,7 @@ import { backendUrl } from "../config";
 import { Link, Navigate } from "react-router-dom";
 
 export const Register = () => {
+  const [loggedIn, setLoggedIn] = useState(false)
   const [data, setData] = useState({
     userName: "",
     email: "",
@@ -34,14 +35,16 @@ export const Register = () => {
         alert("User already exists");
       } else {
         alert("User register successfully");
-         return <Navigate to={"/login"} replace />;
+        setLoggedIn(true)
       }
     } catch (err) {
       console.log(err);
       alert("Error while register");
     }
   };
-
+  if(loggedIn === true){
+    return <Navigate  to={'/login'} replace/>
+  }
   if (
     localStorage.getItem("user") &&
     JSON.parse(localStorage.getItem("user"))

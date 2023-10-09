@@ -1,0 +1,17 @@
+table, th, td{
+    border: 1px solid ;
+}
+table{
+    border-collapse: collapse;
+}
+th{
+    height: 50px;
+}
+td{
+    text-align: center;
+    height: 40px;
+    vertical-align: bottom;
+}
+tr:hover {
+    background-color: black;
+}

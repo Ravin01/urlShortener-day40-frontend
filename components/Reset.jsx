@@ -3,6 +3,7 @@ import { backendUrl } from "../config";
 import { Navigate } from "react-router-dom";
 
 export const Reset = ()=>{
+  const [isReset, setIsReset] = useState(false)
     const [data, setData] = useState({
         password: "",
       });
@@ -28,11 +29,14 @@ export const Reset = ()=>{
           alert("Error");
         } else {
           alert("password reset successfully");
+          setIsReset(true)
         }
         setData({
           password: "",
         });
-        <Navigate to='/login' replace={true} />
+        if(isReset === true){
+          return <Navigate to={'/login'} replace/>
+        }
       };
     return(
         <div style={{
