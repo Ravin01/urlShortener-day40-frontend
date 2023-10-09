@@ -34,10 +34,10 @@ export const Reset = ()=>{
         setData({
           password: "",
         });
-        if(isReset === true){
-          return <Navigate to={'/login'} replace/>
-        }
       };
+      if(isReset === true){
+        return <Navigate to={'/login'} replace/>
+      }
     return(
         <div style={{
             height : '250px',
